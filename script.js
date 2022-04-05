@@ -10,14 +10,23 @@ let expression = [];
 let a = '';
 let b = '';
 
-deleteButton.addEventListener('click', deleteExpression);
-allClearButton.addEventListener('click', allClearDipslay);
+deleteButton.addEventListener('click', deleteExpression); // Delete number
+
+allClearButton.addEventListener('click', allClearDipslay); // All clear
+
+equalsButton.addEventListener('click', calculate); // Equals
+
+operatorButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    addExpression(button.innerText);
+    addExpressionPrevious()    
+  })
+})
 
 numberButtons.forEach(numberButton => {
   numberButton.addEventListener('click', () => {
     let value = numberButton.innerText;
     addExpression(value);
-    console.log(expression);
   })
 });
 
@@ -27,23 +36,27 @@ function addExpression(value) {
 
   if(expression.length != 1) {
     a = ''
-    currentOperand.innerText = a;
+    showValue();
   }
 
   joinExpression();
+  showValue();
  
 }
 
+function addExpressionPrevious() {
+  b = a;
+  a = '';
+  showValue();
+}
 
 function deleteExpression() {
   expression.pop();
-  console.log(expression);
 
   a = ''
 
   joinExpression()
 
-  currentOperand.innerText = a;
 }
 
 function joinExpression() {
@@ -51,13 +64,27 @@ function joinExpression() {
   for(let i of expression) {
     a += i;
   }
-  currentOperand.innerText = a;
+
+  showValue();
 }
 
 function allClearDipslay() {
   a = '';
   b = '';
   expression = [];
+  ans = expression;
+  showValue();
+}
+
+function showValue() {
   currentOperand.innerText = a;
   previousOperand.innerText = b;
+}
+
+function calculate() {
+  let result = eval(expression.join(''));
+  result;
+  expression = [];
+  expression.push(result);
+  currentOperand.innerHTML = result;
 }
