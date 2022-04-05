@@ -9,18 +9,23 @@ class Calculator {
   constructor(currentOperandTextElement, previousOperandTextElement) {
     this.currentOperandTextElement = currentOperandTextElement;
     this.previousOperandTextElement = previousOperandTextElement;
+    this.clear()
+  }
+
+  delete() {
+    this.currentOperand = this.currentOperand.slice(0, -1)
 
   }
 
   clear() {
-    this.currentOperand = '';
+    this.currentOperand = '54321';
     this.previousOperand = '';
     this.operation = undefined;
   }
 
   updateDisplay() {
-    this.currentOperandTextElement.innerHTML = this.currentOperand;
     this.previousOperandTextElement.innerHTML = `${this.previousOperand}  ${this.operation || ''}`;
+    this.currentOperandTextElement.innerHTML = this.currentOperand;
   }
 }
 
@@ -29,4 +34,9 @@ const calculator = new Calculator(currentOperandTextElement, previousOperandText
 allClearButton.addEventListener('click', () => {
   calculator.clear();
   calculator.updateDisplay();
+})
+
+deleteButton.addEventListener('click', () => {
+  calculator.delete()
+  calculator.updateDisplay()
 })
