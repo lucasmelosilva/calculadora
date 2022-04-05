@@ -42,7 +42,7 @@ class Calculator {
         return;
     }
 
-    this.currentOperand = result;
+    this.currentOperand = result.toString();
     this.operation = undefined;
     this.previousOperand = ''
   }
