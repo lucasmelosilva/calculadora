@@ -13,18 +13,58 @@ class Calculator {
   }
 
   appendNumber(number) {
-    if (this.currentOperand.includes('.') && number == '.') return;
-    this.currentOperand += number;
+    if (this.currentOperand.includes('.') && number === '.') return;
+    this.currentOperand += number.toString();
   }
 
-  delete() {
-    this.currentOperand = this.currentOperand.slice(0, -1);
+  calculate() {
+    let result;
+
+    let _previousOperand = parseFloat(this.previousOperand);
+    let _currentOperand = parseFloat(this.currentOperand);
+
+    if (isNaN(_currentOperand) || isNaN(_previousOperand)) return;
+
+    switch (this.operation) {
+      case '+':
+        result = _previousOperand + _currentOperand;
+        break;
+      case '-':
+        result = _previousOperand - _currentOperand;
+        break;
+      case '÷':
+        result = _previousOperand / _currentOperand;
+        break;
+      case 'x':
+        result = _previousOperand * _currentOperand;
+        break;
+      default:
+        return;
+    }
+
+    this.currentOperand = result;
+    this.operation = undefined;
+    this.previousOperand = ''
+  }
+
+  chooseOperation(operation) {
+    if (this.operation) {
+      this.calculate()
+    }
+
+    this.operation = operation;
+    this.previousOperand = this.currentOperand;
+    this.currentOperand = '';
   }
 
   clear() {
     this.currentOperand = '';
     this.previousOperand = '';
     this.operation = undefined;
+  }
+
+  delete() {
+    this.currentOperand = this.currentOperand.slice(0, -1);
   }
 
   updateDisplay() {
@@ -45,9 +85,21 @@ deleteButton.addEventListener('click', () => {
   calculator.updateDisplay();
 })
 
+equalsButton.addEventListener('click', () => {
+  calculator.calculate();
+  calculator.updateDisplay();
+})
+
 for (let buttonNumber of numberButtons) {
   buttonNumber.addEventListener('click', () => {
     calculator.appendNumber(buttonNumber.innerText);
     calculator.updateDisplay();
   })
+}
+
+for (let operatorButton of operatorButtons) {
+  operatorButton.addEventListener('click', () => {
+    calculator.chooseOperation(operatorButton.innerText);
+    calculator.updateDisplay();
+  });
 }
