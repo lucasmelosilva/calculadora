@@ -8,8 +8,10 @@ const allClearButton = document.querySelector('[data-all-clear]');
 
 let expression = [];
 let a = '';
+let b = '';
 
 deleteButton.addEventListener('click', deleteExpression);
+allClearButton.addEventListener('click', allClearDipslay);
 
 numberButtons.forEach(numberButton => {
   numberButton.addEventListener('click', () => {
@@ -40,7 +42,7 @@ function deleteExpression() {
   a = ''
 
   joinExpression()
-  
+
   currentOperand.innerText = a;
 }
 
@@ -50,4 +52,12 @@ function joinExpression() {
     a += i;
   }
   currentOperand.innerText = a;
+}
+
+function allClearDipslay() {
+  a = '';
+  b = '';
+  expression = [];
+  currentOperand.innerText = a;
+  previousOperand.innerText = b;
 }
