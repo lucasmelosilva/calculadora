@@ -12,13 +12,17 @@ class Calculator {
     this.clear()
   }
 
-  delete() {
-    this.currentOperand = this.currentOperand.slice(0, -1)
+  appendNumber(number) {
+    if (this.currentOperand.includes('.') && number == '.') return;
+    this.currentOperand += number;
+  }
 
+  delete() {
+    this.currentOperand = this.currentOperand.slice(0, -1);
   }
 
   clear() {
-    this.currentOperand = '54321';
+    this.currentOperand = '';
     this.previousOperand = '';
     this.operation = undefined;
   }
@@ -37,6 +41,13 @@ allClearButton.addEventListener('click', () => {
 })
 
 deleteButton.addEventListener('click', () => {
-  calculator.delete()
-  calculator.updateDisplay()
+  calculator.delete();
+  calculator.updateDisplay();
 })
+
+for (let buttonNumber of numberButtons) {
+  buttonNumber.addEventListener('click', () => {
+    calculator.appendNumber(buttonNumber.innerText);
+    calculator.updateDisplay();
+  })
+}
